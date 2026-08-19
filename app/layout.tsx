@@ -79,14 +79,29 @@ export default function RootLayout({
                   href="/"
                   className={`rounded p-3 transition border block ${completedModules.includes("arrays") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
                 >
-                  3. Arrays {completedModules.includes("arrays") && "✓"}
+                  1. Arrays {completedModules.includes("arrays") && "✓"}
                 </Link>
                 <Link
                   href="/pointers"
                   className={`rounded p-3 transition border block ${completedModules.includes("pointers") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
                 >
-                  4. Pointers {completedModules.includes("pointers") && "✓"}
+                  2. Pointers {completedModules.includes("pointers") && "✓"}
                 </Link>
+
+                {/* DYNAMIC LOCK: Opens when Level 2 is reached */}
+                {isLevel2 ? (
+                  <Link
+                    href="/linked-lists"
+                    className={`rounded p-3 transition border block font-bold ${completedModules.includes("linked-lists") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-blue-400 border-transparent"}`}
+                  >
+                    3. Linked Lists{" "}
+                    {completedModules.includes("linked-lists") && "✓"}
+                  </Link>
+                ) : (
+                  <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                    🔒 3. Linked Lists (Reach Lv.2)
+                  </div>
+                )}
               </div>
             </div>
           </nav>
