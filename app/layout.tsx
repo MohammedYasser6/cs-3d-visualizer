@@ -182,16 +182,30 @@ export default function RootLayout({
                 </h3>
                 <div className="flex flex-col gap-1">
                   {isLevel3 ? (
-                    <Link
-                      href="/trees"
-                      className={`rounded p-3 transition border block font-medium ${completedModules.includes("trees") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-emerald-400 border-transparent"}`}
-                    >
-                      7. AVL Trees {completedModules.includes("trees") && "✓"}
-                    </Link>
+                    <>
+                      <Link
+                        href="/trees"
+                        className={`rounded p-3 transition border block font-medium ${completedModules.includes("trees") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-emerald-400 border-transparent"}`}
+                      >
+                        8. AVL Trees {completedModules.includes("trees") && "✓"}
+                      </Link>
+                      <Link
+                        href="/graphs"
+                        className={`rounded p-3 transition border block font-medium ${completedModules.includes("graphs") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-violet-400 border-transparent"}`}
+                      >
+                        9. Graphs & Networks{" "}
+                        {completedModules.includes("graphs") && "✓"}
+                      </Link>
+                    </>
                   ) : (
-                    <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
-                      🔒 7. AVL Trees (Reach Lv.3)
-                    </div>
+                    <>
+                      <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                        🔒 8. AVL Trees (Reach Lv.3)
+                      </div>
+                      <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                        🔒 9. Graphs & Networks (Reach Lv.3)
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
