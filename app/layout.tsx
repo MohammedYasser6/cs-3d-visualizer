@@ -117,6 +117,27 @@ export default function RootLayout({
                     ) : (
                       <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
                         🔒 6. Stacks & Queues (Reach Lv.2)
+                        {/* TIER 2: NON-LINEAR DATA STRUCTURES */}
+                        <div className="mt-2">
+                          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">
+                            Tier 2: Non-Linear
+                          </h3>
+                          <div className="flex flex-col gap-1">
+                            {level >= 3 ? (
+                              <Link
+                                href="/trees"
+                                className={`rounded p-3 transition border block font-bold ${completedModules.includes("trees") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-emerald-400 border-transparent"}`}
+                              >
+                                7. Binary Trees{" "}
+                                {completedModules.includes("trees") && "✓"}
+                              </Link>
+                            ) : (
+                              <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                                🔒 7. Binary Trees (Reach Lv.3)
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
