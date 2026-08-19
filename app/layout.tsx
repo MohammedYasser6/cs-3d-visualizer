@@ -54,12 +54,15 @@ export default function RootLayout({
                 Tier 0: Fundamentals
               </h3>
               <div className="flex flex-col gap-1">
+                {/* Updated Hardware Link to show completion checkmark */}
                 <Link
                   href="/hardware"
-                  className="rounded p-3 transition border block hover:bg-slate-800 text-slate-300 border-transparent"
+                  className={`rounded p-3 transition border block ${completedModules.includes("hardware") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
                 >
-                  1. Hardware & Memory
+                  1. Hardware & Memory{" "}
+                  {completedModules.includes("hardware") && "✓"}
                 </Link>
+
                 <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
                   🔒 2. Programming 101
                 </div>
