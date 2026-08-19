@@ -47,31 +47,45 @@ export default function RootLayout({
             </p>
           </div>
 
-          <nav className="flex flex-col gap-2">
-            <Link
-              href="/"
-              className={`rounded p-3 transition border block ${completedModules.includes("arrays") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
-            >
-              1. Arrays {completedModules.includes("arrays") && "✓"}
-            </Link>
-
-            <Link
-              href="/pointers"
-              className={`rounded p-3 transition border block ${completedModules.includes("pointers") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
-            >
-              2. Pointers {completedModules.includes("pointers") && "✓"}
-            </Link>
-
-            {/* DYNAMIC LOCK: Opens when Level 2 is reached */}
-            {isLevel2 ? (
-              <div className="rounded hover:bg-slate-800 text-slate-300 p-3 transition border border-transparent cursor-pointer block font-bold text-blue-400">
-                3. Linked Lists (New!)
+          <nav className="flex flex-col gap-4">
+            {/* TIER 0: FUNDAMENTALS */}
+            <div>
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">
+                Tier 0: Fundamentals
+              </h3>
+              <div className="flex flex-col gap-1">
+                <Link
+                  href="/hardware"
+                  className="rounded p-3 transition border block hover:bg-slate-800 text-slate-300 border-transparent"
+                >
+                  1. Hardware & Memory
+                </Link>
+                <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                  🔒 2. Programming 101
+                </div>
               </div>
-            ) : (
-              <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent mt-2 text-sm font-medium">
-                🔒 3. Linked Lists (Reach Lv.2)
+            </div>
+
+            {/* TIER 1: DATA STRUCTURES */}
+            <div>
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">
+                Tier 1: Data Structures
+              </h3>
+              <div className="flex flex-col gap-1">
+                <Link
+                  href="/"
+                  className={`rounded p-3 transition border block ${completedModules.includes("arrays") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
+                >
+                  3. Arrays {completedModules.includes("arrays") && "✓"}
+                </Link>
+                <Link
+                  href="/pointers"
+                  className={`rounded p-3 transition border block ${completedModules.includes("pointers") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
+                >
+                  4. Pointers {completedModules.includes("pointers") && "✓"}
+                </Link>
               </div>
-            )}
+            </div>
           </nav>
         </aside>
 
