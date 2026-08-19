@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import ArrayVisualizer from "../components/canvas/ArrayVisualizer";
 
 export default function Home() {
-  // State to hold our array data
   const [array, setArray] = useState<number[]>([10, 24, 42]);
 
-  // Functions to interact with the array
   const addElement = () =>
     setArray([...array, Math.floor(Math.random() * 100)]);
   const removeElement = () => setArray(array.slice(0, -1));
@@ -17,7 +15,6 @@ export default function Home() {
 
   return (
     <main className="flex h-screen w-full bg-slate-950 text-slate-200">
-      {/* LEFT SIDEBAR: Navigation */}
       <aside className="w-64 border-r border-slate-800 bg-slate-900 p-6 flex flex-col z-10">
         <h1 className="text-2xl font-bold text-white mb-8">CS 3D Vis</h1>
         <nav className="flex flex-col gap-2">
@@ -33,9 +30,7 @@ export default function Home() {
         </nav>
       </aside>
 
-      {/* CENTER & BOTTOM: 3D Canvas & Controls */}
       <section className="relative flex flex-col flex-1 h-full">
-        {/* Title overlay */}
         <div className="absolute top-6 left-8 z-10 pointer-events-none">
           <h2 className="text-3xl font-bold text-white">
             Contiguous Memory: Arrays
@@ -47,21 +42,21 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 3D Canvas */}
         <div className="flex-1 w-full h-full cursor-grab active:cursor-grabbing">
           <Canvas camera={{ position: [0, 2, 8], fov: 45 }}>
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[5, 10, 5]} intensity={1.2} />
+            {/* Suspense tells React not to crash while waiting for fonts/lighting to load */}
+            <Suspense fallback={null}>
+              <ambientLight intensity={0.6} />
+              <directionalLight position={[5, 10, 5]} intensity={1.2} />
 
-            {/* Render our interactive array */}
-            <ArrayVisualizer arrayData={array} />
+              <ArrayVisualizer arrayData={array} />
 
-            <OrbitControls enableDamping minDistance={3} maxDistance={20} />
-            <Environment preset="city" />
+              <OrbitControls enableDamping minDistance={3} maxDistance={20} />
+              <Environment preset="city" />
+            </Suspense>
           </Canvas>
         </div>
 
-        {/* BOTTOM PANEL: User Controls */}
         <div className="h-24 border-t border-slate-800 bg-slate-900 flex items-center justify-center gap-4 z-10">
           <button
             onClick={addElement}
