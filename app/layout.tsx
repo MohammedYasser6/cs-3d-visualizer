@@ -217,14 +217,36 @@ export default function RootLayout({
 
               {/* TIER 3: ALGORITHMS */}
               <div>
-                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">Tier 3: Algorithms</h3>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">
+                  Tier 3: Algorithms
+                </h3>
                 <div className="flex flex-col gap-1">
                   {isLevel4 ? (
-                    <Link href="/sorting" className={`rounded p-3 transition border block font-medium ${completedModules.includes('sorting') ? 'border-green-500/30 text-green-400 bg-green-500/5' : 'hover:bg-slate-800 text-orange-400 border-transparent'}`}>
-                      10. Sorting: Bubble Sort {completedModules.includes('sorting') && '✓'}
-                    </Link>
+                    <>
+                      <Link
+                        href="/sorting"
+                        className={`rounded p-3 transition border block font-medium ${completedModules.includes("sorting") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-orange-400 border-transparent"}`}
+                      >
+                        10. Sorting: Bubble Sort{" "}
+                        {completedModules.includes("sorting") && "✓"}
+                      </Link>
+                      <Link
+                        href="/search"
+                        className={`rounded p-3 transition border block font-medium ${completedModules.includes("search") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-cyan-400 border-transparent"}`}
+                      >
+                        11. Search: Binary Search{" "}
+                        {completedModules.includes("search") && "✓"}
+                      </Link>
+                    </>
                   ) : (
-                    <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">🔒 10. Sorting (Reach Lv.4)</div>
+                    <>
+                      <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                        🔒 10. Sorting (Reach Lv.4)
+                      </div>
+                      <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                        🔒 11. Search (Reach Lv.4)
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
