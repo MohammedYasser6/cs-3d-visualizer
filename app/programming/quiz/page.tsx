@@ -45,7 +45,7 @@ export default function ProgrammingQuizPage() {
   const checkAnswer = () => {
     if (selectedOption === null) return;
     if (selectedOption === QUIZ_QUESTIONS[currentQuestion].correctAnswer) {
-      setScore(score + 1);
+      setScore((prevScore) => prevScore + 1);
     }
     setIsAnswerChecked(true);
   };
@@ -57,7 +57,14 @@ export default function ProgrammingQuizPage() {
       setIsAnswerChecked(false);
     } else {
       setIsQuizFinished(true);
-      if (score >= 2) {
+
+      // Calculate final score accurately using latest choice state
+      const finalScore =
+        selectedOption === QUIZ_QUESTIONS[currentQuestion].correctAnswer
+          ? score + 1
+          : score;
+
+      if (finalScore >= 2) {
         completeModule("programming", 50);
       }
     }
@@ -132,7 +139,7 @@ export default function ProgrammingQuizPage() {
               return (
                 <button
                   key={index}
-                  onClick={() => handleOptionClick(index)}
+                  onClick={() => setSelectedOption(index)}
                   className={btnClass}
                   disabled={isAnswerChecked}
                 >
