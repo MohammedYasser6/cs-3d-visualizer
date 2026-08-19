@@ -3,7 +3,6 @@
 import { useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
-import { EffectComposer, Bloom } from "@react-three/postprocessing"; // IMPORT POST-PROCESSING
 import Link from "next/link";
 import ArrayVisualizer from "../../components/canvas/ArrayVisualizer";
 
@@ -17,20 +16,36 @@ export default function ArraysPage() {
 
   return (
     <section className="relative flex flex-col h-full w-full">
-      <div className="absolute top-6 left-8 z-10 pointer-events-none">
+      <div className="absolute top-6 left-8 z-10 pointer-events-none max-w-md">
         <p className="text-blue-500 font-bold tracking-widest uppercase text-sm mb-1">
           Tier 1 • Module 3
         </p>
         <h2 className="text-3xl font-bold text-white drop-shadow-md">
           Contiguous Memory: Arrays
         </h2>
-        <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700 p-4 rounded-xl shadow-xl mt-4 max-w-lg pointer-events-auto">
-          <p className="text-slate-300 text-sm leading-relaxed">
-            An array stores data sequentially in memory. Because the blocks are
-            right next to each other (contiguous), the computer can find any
-            item instantly using its index (e.g., Index [2]). Play with the
-            memory blocks below.
-          </p>
+
+        {/* Expanded Educational Panel */}
+        <div className="bg-slate-900/95 border border-slate-700 p-5 rounded-xl shadow-xl mt-4 pointer-events-auto">
+          <h3 className="text-white font-bold mb-2">
+            How it works under the hood:
+          </h3>
+          <ul className="text-slate-300 text-sm space-y-2 mb-4 list-disc pl-4">
+            <li>
+              <strong>Contiguous Allocation:</strong> All blocks are placed
+              side-by-side in RAM. Notice the memory addresses below increasing
+              by exactly 4 bytes each time.
+            </li>
+            <li>
+              <strong>O(1) Lookup Speed:</strong> The CPU doesn't search for
+              Index 2. It calculates it instantly using math:{" "}
+              <code>Address = Base + (Index * 4)</code>.
+            </li>
+            <li>
+              <strong>The Downside:</strong> If the array runs out of unbroken
+              space in RAM, the entire structure must be copied to a new, larger
+              location.
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -39,26 +54,14 @@ export default function ArraysPage() {
           <Suspense fallback={null}>
             <ambientLight intensity={0.6} />
             <directionalLight position={[5, 10, 5]} intensity={1.2} />
-
             <ArrayVisualizer arrayData={array} />
-
             <OrbitControls enableDamping minDistance={3} maxDistance={20} />
             <Environment preset="city" />
-
-            {/* CINEMATIC POST-PROCESSING */}
-            <EffectComposer>
-              <Bloom
-                luminanceThreshold={0.2}
-                luminanceSmoothing={0.9}
-                intensity={1.5}
-                mipmapBlur
-              />
-            </EffectComposer>
           </Suspense>
         </Canvas>
       </div>
 
-      <div className="h-24 border-t border-slate-800 bg-slate-900 flex items-center justify-between px-8 z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+      <div className="h-24 border-t border-slate-800 bg-slate-900 flex items-center justify-between px-8 z-10">
         <div className="flex gap-4">
           <button
             onClick={addElement}
@@ -82,7 +85,7 @@ export default function ArraysPage() {
         </div>
         <Link
           href="/arrays/quiz"
-          className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-bold transition shadow-lg shadow-green-900/50"
+          className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-bold transition"
         >
           Take the Exam →
         </Link>

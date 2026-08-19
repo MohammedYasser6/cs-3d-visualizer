@@ -79,7 +79,6 @@ export default function RootLayout({
                 Tier 1: Data Structures
               </h3>
               <div className="flex flex-col gap-1">
-                {/* Updated Arrays Link to point to /arrays instead of / */}
                 <Link
                   href="/arrays"
                   className={`rounded p-3 transition border block ${completedModules.includes("arrays") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
@@ -93,6 +92,21 @@ export default function RootLayout({
                 >
                   4. Pointers {completedModules.includes("pointers") && "✓"}
                 </Link>
+
+                {/* THE RESTORED LINKED LISTS LOCK */}
+                {isLevel2 ? (
+                  <Link
+                    href="/linked-lists"
+                    className={`rounded p-3 transition border block font-bold ${completedModules.includes("linked-lists") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-blue-400 border-transparent"}`}
+                  >
+                    5. Linked Lists{" "}
+                    {completedModules.includes("linked-lists") && "✓"}
+                  </Link>
+                ) : (
+                  <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                    🔒 5. Linked Lists (Reach Lv.2)
+                  </div>
+                )}
               </div>
             </div>
           </nav>
