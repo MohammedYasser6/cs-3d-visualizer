@@ -28,6 +28,7 @@ export default function RootLayout({
 
   const isLevel2 = level >= 2;
   const isLevel3 = level >= 3;
+  const isLevel4 = level >= 4;
 
   return (
     // 3. Apply the fonts globally to the HTML tag
@@ -206,6 +207,24 @@ export default function RootLayout({
                         🔒 9. Graphs & Networks (Reach Lv.3)
                       </div>
                     </>
+                  )}
+                </div>
+              </div>
+              {/* // Add this to your level checks at the top of the file:
+  const isLevel4 = level >= 4;
+
+  // ...  */}
+
+              {/* TIER 3: ALGORITHMS */}
+              <div>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">Tier 3: Algorithms</h3>
+                <div className="flex flex-col gap-1">
+                  {isLevel4 ? (
+                    <Link href="/sorting" className={`rounded p-3 transition border block font-medium ${completedModules.includes('sorting') ? 'border-green-500/30 text-green-400 bg-green-500/5' : 'hover:bg-slate-800 text-orange-400 border-transparent'}`}>
+                      10. Sorting: Bubble Sort {completedModules.includes('sorting') && '✓'}
+                    </Link>
+                  ) : (
+                    <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">🔒 10. Sorting (Reach Lv.4)</div>
                   )}
                 </div>
               </div>
