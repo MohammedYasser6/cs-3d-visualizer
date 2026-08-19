@@ -1,29 +1,35 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import ArrayVisualizer from "../components/canvas/ArrayVisualizer";
+import { useStore } from "../store/useStore"; // IMPORT THE STORE
 
 export default function ArraysPage() {
   const [array, setArray] = useState<number[]>([10, 24, 42]);
+  const [targetLength] = useState(5);
 
-  // Phase 2: Gamification State (Target array length to win the level)
-  const [targetLength, setTargetLength] = useState(5);
+  // Get our XP function from the global store
+  const completeModule = useStore((state) => state.completeModule);
 
   const addElement = () =>
     setArray([...array, Math.floor(Math.random() * 100)]);
   const removeElement = () => setArray(array.slice(0, -1));
   const clearArray = () => setArray([]);
 
-  // Check if the user successfully completed the challenge
   const isLevelComplete = array.length === targetLength;
+
+  // Watch the isLevelComplete variable. If it turns true, award 50 XP!
+  useEffect(() => {
+    if (isLevelComplete) {
+      completeModule("arrays", 50);
+    }
+  }, [isLevelComplete, completeModule]);
 
   return (
     <section className="relative flex flex-col h-full w-full">
-      {/* Top Header & Gamification Panel */}
       <div className="absolute top-6 left-8 right-8 z-10 flex justify-between items-start pointer-events-none">
-        {/* Module Info */}
         <div>
           <h2 className="text-3xl font-bold text-white drop-shadow-md">
             Contiguous Memory: Arrays
@@ -34,7 +40,6 @@ export default function ArraysPage() {
           </p>
         </div>
 
-        {/* The Challenge UI (pointer-events-auto lets the user click it if we add buttons later) */}
         <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700 p-5 rounded-xl shadow-2xl pointer-events-auto text-right min-w-[250px]">
           <p className="text-xs text-blue-400 font-bold uppercase tracking-widest mb-1">
             Current Challenge
@@ -56,13 +61,12 @@ export default function ArraysPage() {
 
           {isLevelComplete && (
             <p className="mt-3 text-green-400 font-bold animate-pulse text-sm">
-              ✓ Challenge Complete!
+              +50 XP Awarded!
             </p>
           )}
         </div>
       </div>
 
-      {/* 3D Canvas (Cleaned up) */}
       <div className="flex-1 w-full h-full cursor-grab active:cursor-grabbing">
         <Canvas camera={{ position: [0, 2, 8], fov: 45 }}>
           <Suspense fallback={null}>
@@ -75,18 +79,17 @@ export default function ArraysPage() {
         </Canvas>
       </div>
 
-      {/* Interactive Controls */}
       <div className="h-24 border-t border-slate-800 bg-slate-900 flex items-center justify-center gap-4 z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <button
           onClick={addElement}
-          className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded shadow-lg shadow-blue-900/50 font-medium transition active:scale-95"
+          className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded font-medium transition active:scale-95"
         >
           Push Element
         </button>
         <button
           onClick={removeElement}
           disabled={array.length === 0}
-          className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded font-medium transition disabled:opacity-50 active:scale-95"
+          className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded font-medium transition active:scale-95"
         >
           Pop Element
         </button>
