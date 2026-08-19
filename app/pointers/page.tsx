@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing"; // IMPORTED
 import Link from "next/link";
 import PointerVisualizer from "../../components/canvas/PointerVisualizer";
 
@@ -11,7 +12,6 @@ export default function PointersPage() {
 
   return (
     <section className="relative flex flex-col h-full w-full">
-      {/* Header Info (Sandbox Mode) */}
       <div className="absolute top-6 left-8 z-10 pointer-events-none">
         <p className="text-blue-500 font-bold tracking-widest uppercase text-sm mb-1">
           Tier 1 • Module 4
@@ -31,11 +31,23 @@ export default function PointersPage() {
       <div className="flex-1 w-full h-full cursor-grab active:cursor-grabbing">
         <Canvas camera={{ position: [0, 2, 8], fov: 45 }}>
           <Suspense fallback={null}>
-            <ambientLight intensity={0.6} />
+            <ambientLight intensity={0.2} />
             <directionalLight position={[5, 10, 5]} intensity={1.2} />
+
             <PointerVisualizer isLinked={isLinked} />
+
             <OrbitControls enableDamping minDistance={3} maxDistance={20} />
             <Environment preset="city" />
+
+            {/* ADDED CINEMATIC BLOOM */}
+            <EffectComposer>
+              <Bloom
+                luminanceThreshold={0.2}
+                luminanceSmoothing={0.9}
+                intensity={1.5}
+                mipmapBlur
+              />
+            </EffectComposer>
           </Suspense>
         </Canvas>
       </div>

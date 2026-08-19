@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing"; // IMPORTED
 import Link from "next/link";
 import LinkedListVisualizer from "../../components/canvas/LinkedListVisualizer";
 
@@ -36,9 +37,21 @@ export default function LinkedListsPage() {
           <Suspense fallback={null}>
             <ambientLight intensity={0.6} />
             <directionalLight position={[5, 10, 5]} intensity={1.2} />
+
             <LinkedListVisualizer listData={list} />
+
             <OrbitControls enableDamping minDistance={3} maxDistance={20} />
             <Environment preset="city" />
+
+            {/* ADDED CINEMATIC BLOOM */}
+            <EffectComposer>
+              <Bloom
+                luminanceThreshold={0.2}
+                luminanceSmoothing={0.9}
+                intensity={1.5}
+                mipmapBlur
+              />
+            </EffectComposer>
           </Suspense>
         </Canvas>
       </div>
