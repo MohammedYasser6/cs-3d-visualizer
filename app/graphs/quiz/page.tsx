@@ -85,12 +85,23 @@ export default function GraphsQuizPage() {
               You need at least 2 correct to pass.
             </p>
           )}
-          <Link
-            href="/graphs"
-            className="block w-full py-3 bg-violet-600 hover:bg-violet-500 text-white rounded font-bold transition"
-          >
-            Return to Sandbox
-          </Link>
+
+          <div className="flex flex-col gap-3">
+            {passed && (
+              <Link
+                href="/trees"
+                className="block w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold transition"
+              >
+                Next Module →
+              </Link>
+            )}
+            <Link
+              href="/sorting"
+              className="block w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold transition border border-slate-700"
+            >
+              Return to Dashboard
+            </Link>
+          </div>
         </div>
       </div>
     );

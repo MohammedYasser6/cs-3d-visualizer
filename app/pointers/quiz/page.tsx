@@ -67,8 +67,8 @@ export default function PointersQuizPage() {
   if (isQuizFinished) {
     const passed = score >= 2;
     return (
-      <div className="h-full w-full flex flex-col items-center justify-center bg-slate-950 p-6">
-        <div className="bg-slate-900 border border-slate-800 p-10 rounded-2xl max-w-md w-full text-center shadow-2xl">
+      <div className="h-full w-full flex flex-col items-center justify-center bg-slate-950 p-6 animate-fade-in">
+        <div className="bg-slate-900 border border-slate-800 p-10 rounded-2xl max-w-md w-full text-center shadow-2xl animate-slide-up">
           <h2 className="text-3xl font-bold text-white mb-4">Exam Complete!</h2>
           <p className="text-6xl mb-6">{passed ? "🎉" : "❌"}</p>
           <p className="text-xl text-slate-300 mb-2">
@@ -84,12 +84,23 @@ export default function PointersQuizPage() {
               You need at least 2 correct to pass.
             </p>
           )}
-          <Link
-            href="/pointers"
-            className="block w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold transition"
-          >
-            Return to Sandbox
-          </Link>
+
+          <div className="flex flex-col gap-3">
+            {passed && (
+              <Link
+                href="/trees"
+                className="block w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold transition"
+              >
+                Next Module →
+              </Link>
+            )}
+            <Link
+              href="/linked-lists"
+              className="block w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold transition border border-slate-700"
+            >
+              Return to Dashboard
+            </Link>
+          </div>
         </div>
       </div>
     );
