@@ -105,6 +105,20 @@ export default function RootLayout({
                 ) : (
                   <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
                     🔒 5. Linked Lists (Reach Lv.2)
+                    {/* 6. STACKS & QUEUES LINK */}
+                    {isLevel2 ? (
+                      <Link
+                        href="/stacks-queues"
+                        className={`rounded p-3 transition border block font-bold ${completedModules.includes("stacks-queues") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-amber-500 border-transparent"}`}
+                      >
+                        6. Stacks & Queues{" "}
+                        {completedModules.includes("stacks-queues") && "✓"}
+                      </Link>
+                    ) : (
+                      <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
+                        🔒 6. Stacks & Queues (Reach Lv.2)
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
