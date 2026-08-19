@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware"; // Import the persist tool
 
 interface UserState {
   xp: number;
@@ -7,24 +8,30 @@ interface UserState {
   completeModule: (moduleName: string, xpGained: number) => void;
 }
 
-export const useStore = create<UserState>((set) => ({
-  xp: 0,
-  level: 1,
-  completedModules: [],
+// Wrap our entire store logic inside persist()
+export const useStore = create<UserState>()(
+  persist(
+    (set) => ({
+      xp: 0,
+      level: 1,
+      completedModules: [],
 
-  // This function is our engine. It adds XP, checks for level ups, and prevents double-awarding XP.
-  completeModule: (moduleName, xpGained) =>
-    set((state) => {
-      // If they already completed it, don't give them XP again
-      if (state.completedModules.includes(moduleName)) return state;
+      completeModule: (moduleName, xpGained) =>
+        set((state) => {
+          if (state.completedModules.includes(moduleName)) return state;
 
-      const newXp = state.xp + xpGained;
-      const newLevel = Math.floor(newXp / 100) + 1; // Level up every 100 XP
+          const newXp = state.xp + xpGained;
+          const newLevel = Math.floor(newXp / 100) + 1;
 
-      return {
-        xp: newXp,
-        level: newLevel,
-        completedModules: [...state.completedModules, moduleName],
-      };
+          return {
+            xp: newXp,
+            level: newLevel,
+            completedModules: [...state.completedModules, moduleName],
+          };
+        }),
     }),
-}));
+    {
+      name: "cs-3d-user-progress", // The name of the file saved in the browser's storage
+    },
+  ),
+);
