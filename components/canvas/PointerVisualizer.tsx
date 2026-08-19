@@ -1,6 +1,6 @@
 "use client";
 
-import { Text } from "@react-three/drei";
+import { Text, QuadraticBezierLine } from "@react-three/drei";
 
 interface PointerProps {
   isLinked: boolean;
@@ -27,7 +27,6 @@ export default function PointerVisualizer({ isLinked }: PointerProps) {
       <group position={[-2, 0, 0]}>
         <mesh>
           <boxGeometry args={[1.5, 1.5, 1.5]} />
-          {/* Changes color if it is holding the address (linked) */}
           <meshStandardMaterial
             color={isLinked ? "#a855f7" : "#ef4444"}
             opacity={0.8}
@@ -41,6 +40,19 @@ export default function PointerVisualizer({ isLinked }: PointerProps) {
           Pointer: ptr
         </Text>
       </group>
+
+      {/* 3. The 3D Pointer Arc (Only renders if linked) */}
+      {isLinked && (
+        <QuadraticBezierLine
+          start={[-2, 0.5, 0]} // Starts at the top of the Pointer
+          end={[2, 0.5, 0]} // Ends at the top of the Variable
+          mid={[0, 3, 0]} // The arc arcs upward through this middle point
+          color="#a855f7"
+          lineWidth={3}
+          dashed={true}
+          dashScale={5}
+        />
+      )}
     </group>
   );
 }
