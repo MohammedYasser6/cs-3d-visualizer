@@ -54,7 +54,6 @@ export default function RootLayout({
                 Tier 0: Fundamentals
               </h3>
               <div className="flex flex-col gap-1">
-                {/* Updated Hardware Link to show completion checkmark */}
                 <Link
                   href="/hardware"
                   className={`rounded p-3 transition border block ${completedModules.includes("hardware") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
@@ -63,9 +62,14 @@ export default function RootLayout({
                   {completedModules.includes("hardware") && "✓"}
                 </Link>
 
-                <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
-                  🔒 2. Programming 101
-                </div>
+                {/* Unlocked Programming Link */}
+                <Link
+                  href="/programming"
+                  className={`rounded p-3 transition border block ${completedModules.includes("programming") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
+                >
+                  2. Programming 101{" "}
+                  {completedModules.includes("programming") && "✓"}
+                </Link>
               </div>
             </div>
 
@@ -75,33 +79,20 @@ export default function RootLayout({
                 Tier 1: Data Structures
               </h3>
               <div className="flex flex-col gap-1">
+                {/* Updated Arrays Link to point to /arrays instead of / */}
                 <Link
-                  href="/"
+                  href="/arrays"
                   className={`rounded p-3 transition border block ${completedModules.includes("arrays") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
                 >
-                  1. Arrays {completedModules.includes("arrays") && "✓"}
+                  3. Arrays {completedModules.includes("arrays") && "✓"}
                 </Link>
+
                 <Link
                   href="/pointers"
                   className={`rounded p-3 transition border block ${completedModules.includes("pointers") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-slate-300 border-transparent"}`}
                 >
-                  2. Pointers {completedModules.includes("pointers") && "✓"}
+                  4. Pointers {completedModules.includes("pointers") && "✓"}
                 </Link>
-
-                {/* DYNAMIC LOCK: Opens when Level 2 is reached */}
-                {isLevel2 ? (
-                  <Link
-                    href="/linked-lists"
-                    className={`rounded p-3 transition border block font-bold ${completedModules.includes("linked-lists") ? "border-green-500/30 text-green-400" : "hover:bg-slate-800 text-blue-400 border-transparent"}`}
-                  >
-                    3. Linked Lists{" "}
-                    {completedModules.includes("linked-lists") && "✓"}
-                  </Link>
-                ) : (
-                  <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
-                    🔒 3. Linked Lists (Reach Lv.2)
-                  </div>
-                )}
               </div>
             </div>
           </nav>
