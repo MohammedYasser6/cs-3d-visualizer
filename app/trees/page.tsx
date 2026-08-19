@@ -5,8 +5,15 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import Link from "next/link";
 import TreeVisualizer from "../../components/canvas/TreeVisualizer";
+import CodeViewer from "../../components/ui/CodeViewer";
 
-// --- AVL TREE LOGIC ---
+const TREE_CODE = {
+  "C++": `struct TreeNode {\n    int value;\n    TreeNode* left;\n    TreeNode* right;\n    \n    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}\n};\n\n// BST Insertion\nTreeNode* insert(TreeNode* root, int val) {\n    if (!root) return new TreeNode(val);\n    \n    if (val < root->value)\n        root->left = insert(root->left, val);\n    else if (val > root->value)\n        root->right = insert(root->right, val);\n        \n    return root;\n}`,
+  Java: `class TreeNode {\n    int value;\n    TreeNode left, right;\n    \n    TreeNode(int val) {\n        this.value = val;\n        left = right = null;\n    }\n}\n\n// BST Insertion\nTreeNode insert(TreeNode root, int val) {\n    if (root == null) return new TreeNode(val);\n    \n    if (val < root.value)\n        root.left = insert(root.left, val);\n    else if (val > root.value)\n        root.right = insert(root.right, val);\n        \n    return root;\n}`,
+  Kotlin: `class TreeNode(\n    var value: Int,\n    var left: TreeNode? = null,\n    var right: TreeNode? = null\n)\n\n// BST Insertion\nfun insert(root: TreeNode?, val: Int): TreeNode {\n    if (root == null) return TreeNode(val)\n    \n    if (val < root.value)\n        root.left = insert(root.left, val)\n    else if (val > root.value)\n        root.right = insert(root.right, val)\n        \n    return root\n}`,
+  Python: `class TreeNode:\n    def __init__(self, val):\n        self.value = val\n        self.left = None\n        self.right = None\n\n# BST Insertion\ndef insert(root, val):\n    if not root:\n        return TreeNode(val)\n        \n    if val < root.value:\n        root.left = insert(root.left, val)\n    elif val > root.value:\n        root.right = insert(root.right, val)\n        \n    return root`,
+};
+
 type AVLNode = {
   value: number;
   left: AVLNode | null;
@@ -48,7 +55,6 @@ const insertAVL = (
     return { value, left: null, right: null, height: 1 };
   }
 
-  // Clone node for React state immutability
   const newNode = { ...node };
 
   if (value < newNode.value) {
@@ -66,7 +72,6 @@ const insertAVL = (
     1 + Math.max(getHeight(newNode.left), getHeight(newNode.right));
   const balance = getBalance(newNode);
 
-  // Check for Imbalances and Rotate
   if (balance > 1 && value < newNode.left!.value) {
     logs.push(`[!] Imbalance at ${newNode.value}. Performing Right Rotation.`);
     return rightRotate(newNode);
@@ -93,7 +98,6 @@ const insertAVL = (
   return newNode;
 };
 
-// Convert object tree back to array for 3D Visualizer (Max 31 nodes / 5 levels)
 const treeToArray = (root: AVLNode | null): (number | null)[] => {
   const arr: (number | null)[] = Array(31).fill(null);
   const traverse = (node: AVLNode | null, index: number) => {
@@ -114,9 +118,8 @@ export default function TreesPage() {
     height: 1,
   });
   const [nodeCount, setNodeCount] = useState(1);
-  const [actionLog, setActionLog] = useState<string>(
-    "AVL Tree initialized. Click 'Insert' to start.",
-  );
+  const [actionLog, setActionLog] = useState<string>("AVL Tree initialized.");
+  const [activeTab, setActiveTab] = useState<"theory" | "code">("theory");
 
   const insertNode = () => {
     if (nodeCount >= 15) {
@@ -125,7 +128,6 @@ export default function TreesPage() {
     }
     const val = Math.floor(Math.random() * 100);
     const logs: string[] = [`Inserting ${val}: `];
-
     const newRoot = insertAVL(root, val, logs);
 
     setRoot(newRoot);
@@ -143,63 +145,79 @@ export default function TreesPage() {
 
   return (
     <section className="flex h-full w-full overflow-hidden">
-      {/* LEFT COLUMN: Educational Theory */}
-      <div className="w-1/3 min-w-[350px] max-w-[450px] bg-slate-900 border-r border-slate-800 p-8 overflow-y-auto z-10 shadow-2xl flex flex-col">
-        <p className="text-emerald-500 font-bold tracking-widest uppercase text-sm mb-1">
-          Tier 2 • Module 7
-        </p>
-        <h2 className="text-3xl font-bold text-white drop-shadow-md mb-6">
-          AVL Trees (Self-Balancing)
-        </h2>
+      <div className="w-1/3 min-w-[350px] max-w-[500px] bg-slate-900 border-r border-slate-800 flex flex-col z-10 shadow-2xl animate-slide-up">
+        <div className="p-8 pb-0">
+          <p className="text-emerald-500 font-bold tracking-widest uppercase text-sm mb-1">
+            Tier 2 • Module 8
+          </p>
+          <h2 className="text-3xl font-bold text-white drop-shadow-md mb-6">
+            AVL Trees
+          </h2>
 
-        <div className="space-y-6 flex-1">
-          <div>
-            <h3 className="text-white font-bold mb-2 text-lg">
-              The Problem with BSTs:
-            </h3>
-            <p className="text-slate-300 text-sm leading-relaxed mb-4">
-              If you insert sorted data (e.g., 10, 20, 30) into a normal BST, it
-              forms a straight line. You lose the $O(\log N)$ speed and it
-              degrades into a slow Linked List.
-            </p>
-          </div>
-
-          <div className="bg-slate-950 border border-slate-800 p-4 rounded-lg">
-            <h4 className="text-emerald-400 font-bold mb-2 text-sm">
-              The AVL Solution:
-            </h4>
-            <ul className="text-slate-300 text-sm space-y-2 list-disc pl-4">
-              <li>
-                <strong>Balance Factor:</strong> Every node calculates:{" "}
-                <code>Height(Left) - Height(Right)</code>.
-              </li>
-              <li>
-                <strong>The Rule:</strong> If this factor ever becomes greater
-                than `1` or less than `-1`, the tree is mathematically
-                unbalanced.
-              </li>
-              <li>
-                <strong>Rotations:</strong> The tree will physically rotate
-                nodes (Left, Right, Left-Right, or Right-Left) to fix the
-                imbalance instantly.
-              </li>
-            </ul>
+          <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800 mb-6">
+            <button
+              onClick={() => setActiveTab("theory")}
+              className={`flex-1 py-2 text-sm font-bold rounded transition-colors ${activeTab === "theory" ? "bg-slate-800 text-white shadow-sm" : "text-slate-500 hover:text-slate-300"}`}
+            >
+              Theory
+            </button>
+            <button
+              onClick={() => setActiveTab("code")}
+              className={`flex-1 py-2 text-sm font-bold rounded transition-colors ${activeTab === "code" ? "bg-emerald-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-300"}`}
+            >
+              Implementation
+            </button>
           </div>
         </div>
 
-        {/* ALGORITHM ACTION LOG UI */}
-        <div className="mt-8 bg-slate-950 border border-emerald-500/30 p-4 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-          <p className="text-xs text-emerald-500 font-bold uppercase tracking-widest mb-2">
-            Algorithm Execution Log
-          </p>
-          <p className="text-sm text-white font-mono leading-relaxed">
-            {actionLog}
-          </p>
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-8 pt-0 flex flex-col">
+          {activeTab === "theory" ? (
+            <>
+              <div className="space-y-6 flex-1 animate-fade-in">
+                <div>
+                  <h3 className="text-white font-bold mb-2 text-lg">
+                    The Problem with BSTs:
+                  </h3>
+                  <p className="text-slate-300 text-sm leading-relaxed mb-4">
+                    If you insert sorted data into a normal BST, it forms a
+                    straight line. You lose the $O(\log N)$ speed.
+                  </p>
+                </div>
+                <div className="bg-slate-950 border border-slate-800 p-4 rounded-lg">
+                  <h4 className="text-emerald-400 font-bold mb-2 text-sm">
+                    The AVL Solution:
+                  </h4>
+                  <ul className="text-slate-300 text-sm space-y-2 list-disc pl-4">
+                    <li>
+                      <strong>Balance Factor:</strong> Height(Left) -
+                      Height(Right).
+                    </li>
+                    <li>
+                      <strong>The Rule:</strong> If this factor goes beyond `1`
+                      or `-1`, the tree rotates to fix it.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-8 bg-slate-950 border border-emerald-500/30 p-4 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                <p className="text-xs text-emerald-500 font-bold uppercase tracking-widest mb-2">
+                  Algorithm Execution Log
+                </p>
+                <p className="text-sm text-white font-mono leading-relaxed">
+                  {actionLog}
+                </p>
+              </div>
+            </>
+          ) : (
+            <CodeViewer
+              snippets={TREE_CODE}
+              explanation="Trees use Node objects with 'Left' and 'Right' pointers. The insert function uses recursion to traverse down the branches."
+            />
+          )}
         </div>
       </div>
 
-      {/* RIGHT COLUMN: 3D Canvas */}
-      <div className="flex-1 flex flex-col relative bg-slate-950">
+      <div className="flex-1 flex flex-col relative bg-slate-950 animate-fade-in">
         <div className="flex-1 w-full h-full cursor-grab active:cursor-grabbing">
           <Canvas camera={{ position: [0, 1, 10], fov: 45 }}>
             <Suspense fallback={null}>

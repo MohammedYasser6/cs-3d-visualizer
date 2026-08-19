@@ -139,43 +139,7 @@ export default function RootLayout({
                   )}
                 </div>
               </div>
-              {isLevel2 ? (
-                <>
-                  <Link
-                    href="/linked-lists"
-                    className={`rounded p-3 transition border block font-medium ${completedModules.includes("linked-lists") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-blue-400 border-transparent"}`}
-                  >
-                    5. Linked Lists{" "}
-                    {completedModules.includes("linked-lists") && "✓"}
-                  </Link>
-                  <Link
-                    href="/stacks-queues"
-                    className={`rounded p-3 transition border block font-medium ${completedModules.includes("stacks-queues") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-amber-500 border-transparent"}`}
-                  >
-                    6. Stacks & Queues{" "}
-                    {completedModules.includes("stacks-queues") && "✓"}
-                  </Link>
-                  <Link
-                    href="/hash-tables"
-                    className={`rounded p-3 transition border block font-medium ${completedModules.includes("hash-tables") ? "border-green-500/30 text-green-400 bg-green-500/5" : "hover:bg-slate-800 text-blue-500 border-transparent"}`}
-                  >
-                    7. Hash Tables{" "}
-                    {completedModules.includes("hash-tables") && "✓"}
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
-                    🔒 5. Linked Lists (Reach Lv.2)
-                  </div>
-                  <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
-                    🔒 6. Stacks & Queues (Reach Lv.2)
-                  </div>
-                  <div className="rounded p-3 text-slate-600 bg-slate-900/50 cursor-not-allowed border border-transparent text-sm font-medium">
-                    🔒 7. Hash Tables (Reach Lv.2)
-                  </div>
-                </>
-              )}
+              
 
               <div>
                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">
